@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#Necessário instalar xsel, translate-shell, zenity
+text="$(xsel -o)"
+text="$(echo "$text")"
+#translate="$(wget -U "Mozilla/5.0" -qO - "http://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=pt-BR&dt=t&q=$(echo $text | sed "s/[\"'<>]//g")" | sed "s/,,,0]],,.*//g" | awk -F'"' '{print $2, $6}')"
+#echo -e "Original text:" "$text"'\n' > /tmp/notitrans
+#echo "Translation:"'\n' >> /tmp/notitrans
+#trans -b :pt-BR "$(echo $text)" >> /tmp/notitrans
+trans -show-original y -show-original-phonetics n -show-translation y -show-translation-phonetics n -show-prompt-message n -show-languages y -show-original-dictionary n -show-dictionary n -show-alternatives n -no-ansi :pt-BR "$(echo "$text")" > /tmp/notitrans
+zenity --text-info --title="Translation" --filename=/tmp/notitrans
